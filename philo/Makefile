@@ -4,7 +4,14 @@ CFLAGS = -Wextra -Wall -Werror -pthread -Iinclude
 SRCS =	src/main.c \
 		src/tools.c \
 		src/atoi.c \
-		src/init.c
+		src/init.c \
+		src/delete.c \
+		src/thread.c \
+		src/info.c \
+		src/action_fork.c \
+		src/action_philo.c \
+		src/set_philo.c \
+		src/listener.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -22,6 +29,6 @@ clean:
 fclean: clean
 	@rm -rf $(NAME)
 
-re: clean all
+re: fclean all
 
 .PHONY: all clean fclean re

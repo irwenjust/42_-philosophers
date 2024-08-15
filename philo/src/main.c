@@ -6,11 +6,20 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:37:28 by likong            #+#    #+#             */
-/*   Updated: 2024/08/14 20:19:52 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/15 17:48:40 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+static void	ft_free(t_data *d)
+{
+	delete_mutexes(d);
+	if (d->mutexes)
+		free(d->mutexes);
+	if (d->philo)
+		free(d->philo);
+}
 
 static void	init_arg(t_data *d, int i, int num)
 {
@@ -30,8 +39,8 @@ static void	init_arg(t_data *d, int i, int num)
 
 static int	check_input_save(t_data *d, int argc, char **argv)
 {
-	int	i;
-	int	res;
+	int			i;
+	int			res;
 	static char	*num[6] = {"0", "1", "2", "3", "4", "5"};
 
 	if (argc != 5 && argc != 6)
@@ -40,7 +49,6 @@ static int	check_input_save(t_data *d, int argc, char **argv)
 		return (1);
 	}
 	i = 0;
-	res = 0;
 	while (argv[++i])
 	{
 		res = ft_atoi(argv[i]);
@@ -58,6 +66,7 @@ static int	check_input_save(t_data *d, int argc, char **argv)
 	return (0);
 }
 
+//one more: 1 philo will die directly
 int	main(int argc, char **argv)
 {
 	t_data	d;
@@ -65,6 +74,15 @@ int	main(int argc, char **argv)
 	if (check_input_save(&d, argc, argv))
 		return (1);
 	if (init_data(&d))
+	{
+		ft_free(&d);
 		return (1);
+	}
+	if (init_thread(&d))
+	{
+		ft_free(&d);
+		return (1);
+	}
+	ft_free(&d);
 	return (0);
 }
