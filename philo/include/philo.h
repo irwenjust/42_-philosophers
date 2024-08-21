@@ -6,7 +6,7 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:37:24 by likong            #+#    #+#             */
-/*   Updated: 2024/08/15 20:09:23 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/21 12:23:13 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,11 @@
 // stdlib: malloc, free
 // pthread: for thread function
 // sys/time: timeval
-// string: memset
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <string.h>
 
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
@@ -44,7 +42,6 @@ typedef struct s_mutexes
 	t_mutex	*forks;
 	t_mutex	*philos;
 }	t_mutexes;
-
 
 typedef struct s_arg
 {
@@ -76,17 +73,15 @@ typedef struct s_data
 	t_mutexes	*mutexes;
 }	t_data;
 
-
 //atoi
-int	ft_atoi(char *str);
+int		ft_atoi(char *str);
 
 //Tool functions
 int		putstr_fd(char *str, int fd);
 size_t	str_len(char *str);
-int		show_error(t_data *test, char *str);
 
 //Init part
-int		init_data(t_data *d);
+int		init_data(t_data **d);
 
 //Delete part
 void	delete_mutexes(t_data *d);
@@ -102,20 +97,20 @@ int		get_count(t_philo *philo);
 t_time	get_eat_time(t_philo *philo);
 
 //Philo action
-void	think(t_philo philo);
-int		ft_sleep(t_philo philo);
-int		real_sleep(t_philo philo, long s_time);
-int		eat(t_philo philo);
+void	think(t_philo *philo);
+int		ft_sleep(t_philo *philo);
+int		real_sleep(t_philo *philo, long s_time);
+int		eat(t_philo *philo);
 
 //Fork action
-int		take_fork(t_philo philo);
-void	leave_forks(t_philo philo);
+int		take_fork(t_philo *philo);
+void	leave_forks(t_philo *philo);
 
 //Set philo
 void	set_state(t_philo *philo, t_state state);
 int		set_ready_eat(t_philo *philo);
 void	set_eat_count(t_philo *philo);
-void	set_exiting(t_philo *philo);
+int		set_exiting(t_philo *philo);
 
 //Listener
 void	start_listen(t_data *d, pthread_t *th);

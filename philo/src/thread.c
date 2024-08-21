@@ -6,38 +6,38 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:09:53 by likong            #+#    #+#             */
-/*   Updated: 2024/08/15 20:09:59 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/21 12:19:20 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../include/philo.h"
 
-static void	loop_thread(t_philo philo)
+static void	loop_thread(t_philo *philo)
 {
-	while (!check_exit(&philo))
+	while (!check_exit(philo))
 	{
 		if (take_fork(philo) == -1)
-			break;
+			break ;
 		if (eat(philo) == -1)
-			break;
+			break ;
 		if (ft_sleep(philo) == -1)
-			break;
+			break ;
 		think(philo);
 	}
 }
 
 static void	*new_thread(void *arg)
 {
-	t_philo	philo;
+	t_philo	*philo;
 
-	philo = *(t_philo *) arg;
-	if (philo.seat % 2 == 0)
+	philo = (t_philo *) arg;
+	if (philo->seat % 2 == 0)
 	{
 		think(philo);
-		real_sleep(philo, philo.arg.eat_count / 2);
+		real_sleep(philo, philo->arg.t_to_eat / 2);
 	}
 	loop_thread(philo);
-	return (0);
+	return (NULL);
 }
 
 int	init_thread(t_data *d)

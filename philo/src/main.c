@@ -6,7 +6,7 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:37:28 by likong            #+#    #+#             */
-/*   Updated: 2024/08/15 17:48:40 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/20 18:22:24 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	ft_free(t_data *d)
 		free(d->mutexes);
 	if (d->philo)
 		free(d->philo);
+	free(d);
 }
 
 static void	init_arg(t_data *d, int i, int num)
@@ -69,20 +70,23 @@ static int	check_input_save(t_data *d, int argc, char **argv)
 //one more: 1 philo will die directly
 int	main(int argc, char **argv)
 {
-	t_data	d;
+	t_data	*d;
 
-	if (check_input_save(&d, argc, argv))
+	d = (t_data *)malloc(sizeof(t_data));
+	if (!d)
+		return (1);
+	if (check_input_save(d, argc, argv))
 		return (1);
 	if (init_data(&d))
 	{
-		ft_free(&d);
+		ft_free(d);
 		return (1);
 	}
-	if (init_thread(&d))
+	if (init_thread(d))
 	{
-		ft_free(&d);
+		ft_free(d);
 		return (1);
 	}
-	ft_free(&d);
+	ft_free(d);
 	return (0);
 }

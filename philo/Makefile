@@ -1,11 +1,10 @@
 NAME = philo
-CFLAGS = -Wextra -Wall -Werror -pthread -Iinclude
+CFLAGS = -Wextra -Wall -Werror -pthread -Iinclude 
 
 SRCS =	src/main.c \
 		src/tools.c \
 		src/atoi.c \
 		src/init.c \
-		src/delete.c \
 		src/thread.c \
 		src/info.c \
 		src/action_fork.c \

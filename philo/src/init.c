@@ -6,12 +6,11 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:13:51 by likong            #+#    #+#             */
-/*   Updated: 2024/08/15 20:07:12 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/21 12:19:09 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-# include <pthread.h>
 
 static void	init_phi_fork(t_data *d, t_philo *philo, int i)
 {
@@ -30,25 +29,25 @@ static void	init_phi_fork(t_data *d, t_philo *philo, int i)
 	}
 }
 
-static int	init_philo(t_data *d)
+static int	init_philo(t_data **d)
 {
 	int	i;
-	
-	d->philo = (t_philo *)malloc(d->arg.phi_amount * sizeof(t_philo));
-	if (!d->philo)
+
+	(*d)->philo = (t_philo *)malloc((*d)->arg.phi_amount * sizeof(t_philo));
+	if (!(*d)->philo)
 		return (1);
 	i = -1;
-	while ((++i) < d->arg.phi_amount)
+	while ((++i) < (*d)->arg.phi_amount)
 	{
-		d->philo[i].seat = i;
-		d->philo[i].eat_count = 0;
-		d->philo[i].exiting = 0;
-		d->philo[i].arg = d->arg;
-		d->philo[i].last_eat.tv_sec = d->arg.start.tv_sec;
-		d->philo[i].last_eat.tv_usec = d->arg.start.tv_usec;
-		d->philo[i].state = THINK;
-		d->philo[i].self = &d->mutexes->philos[i];
-		init_phi_fork(d, &(d->philo[i]), i);
+		(*d)->philo[i].seat = i;
+		(*d)->philo[i].eat_count = 0;
+		(*d)->philo[i].exiting = 0;
+		(*d)->philo[i].arg = (*d)->arg;
+		(*d)->philo[i].last_eat.tv_sec = (*d)->arg.start.tv_sec;
+		(*d)->philo[i].last_eat.tv_usec = (*d)->arg.start.tv_usec;
+		(*d)->philo[i].state = THINK;
+		(*d)->philo[i].self = &(*d)->mutexes->philos[i];
+		init_phi_fork((*d), &((*d)->philo[i]), i);
 	}
 	return (0);
 }
@@ -86,14 +85,14 @@ static int	init_mutexes(t_data *d)
 	return (0);
 }
 
-int	init_data(t_data *d)
+int	init_data(t_data **d)
 {
-	d->mutexes = (t_mutexes *)malloc(sizeof(t_mutexes));
-	if (!d->mutexes)
+	(*d)->mutexes = (t_mutexes *)malloc(sizeof(t_mutexes));
+	if (!(*d)->mutexes)
 		return (1);
-	d->mutexes->forks = NULL;
-	d->mutexes->forks = NULL;
-	if (init_mutexes(d))
+	(*d)->mutexes->forks = NULL;
+	(*d)->mutexes->philos = NULL;
+	if (init_mutexes(*d))
 		return (1);
 	if (init_philo(d))
 		return (1);
