@@ -6,7 +6,7 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:37:24 by likong            #+#    #+#             */
-/*   Updated: 2024/08/21 12:23:13 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/21 15:34:38 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@
 // stdlib: malloc, free
 // pthread: for thread function
 // sys/time: timeval
+// string: memset
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <string.h>
 
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648

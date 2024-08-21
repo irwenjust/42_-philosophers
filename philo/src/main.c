@@ -6,13 +6,13 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:37:28 by likong            #+#    #+#             */
-/*   Updated: 2024/08/20 18:22:24 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/21 15:35:24 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static void	ft_free(t_data *d)
+static int	ft_free(t_data *d)
 {
 	delete_mutexes(d);
 	if (d->mutexes)
@@ -20,6 +20,7 @@ static void	ft_free(t_data *d)
 	if (d->philo)
 		free(d->philo);
 	free(d);
+	return (1);
 }
 
 static void	init_arg(t_data *d, int i, int num)
@@ -75,18 +76,16 @@ int	main(int argc, char **argv)
 	d = (t_data *)malloc(sizeof(t_data));
 	if (!d)
 		return (1);
+	memset(d, 0, sizeof(t_data));
 	if (check_input_save(d, argc, argv))
+	{
+		free(d);
 		return (1);
+	}
 	if (init_data(&d))
-	{
-		ft_free(d);
-		return (1);
-	}
+		return (ft_free(d));
 	if (init_thread(d))
-	{
-		ft_free(d);
-		return (1);
-	}
+		return (ft_free(d));
 	ft_free(d);
 	return (0);
 }
