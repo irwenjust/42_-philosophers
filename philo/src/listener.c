@@ -6,7 +6,7 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:05:56 by likong            #+#    #+#             */
-/*   Updated: 2024/08/21 12:21:01 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/26 11:09:24 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ void	set_allexiting(t_data *d, pthread_t *th, int count)
 	{
 		result = pthread_join(th[i], NULL);
 		if (result != 0)
+		{
+			pthread_mutex_lock(d->mutexes->printer);
 			printf("Failed\n");
+			pthread_mutex_unlock(d->mutexes->printer);
+		}
 	}
 }
 
@@ -47,7 +51,7 @@ static int	one_dead(t_data *d, pthread_t *th)
 	{
 		if (check_dead(&d->philo[i]) == 0)
 		{
-			printf("%ld %d died\n", passed_time(d->arg.start), i + 1);
+			print_info(&d->philo[i], "died");
 			set_allexiting(d, th, d->arg.phi_amount);
 			return (0);
 		}

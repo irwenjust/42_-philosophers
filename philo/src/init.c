@@ -6,7 +6,7 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:13:51 by likong            #+#    #+#             */
-/*   Updated: 2024/08/21 12:19:09 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/26 10:14:54 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	init_philo(t_data **d)
 		(*d)->philo[i].last_eat.tv_usec = (*d)->arg.start.tv_usec;
 		(*d)->philo[i].state = THINK;
 		(*d)->philo[i].self = &(*d)->mutexes->philos[i];
+		(*d)->philo[i].printer = (*d)->mutexes->printer;
 		init_phi_fork((*d), &((*d)->philo[i]), i);
 	}
 	return (0);
@@ -80,6 +81,18 @@ static int	init_mutexes(t_data *d)
 	if (init_mutex(d, &d->mutexes->philos))
 	{
 		delete_mutex(&d->mutexes->forks, d->arg.phi_amount);
+		return (1);
+	}
+	d->mutexes->printer = (t_mutex *)malloc(sizeof(t_mutex));
+	if (!d->mutexes->printer)
+	{
+		delete_mutexes(d);
+		return (1);
+	}
+	if (pthread_mutex_init(d->mutexes->printer, NULL) == -1)
+	{
+		putstr_fd("Cannot initialize mutex\n", 2);
+		delete_mutexes(d);
 		return (1);
 	}
 	return (0);

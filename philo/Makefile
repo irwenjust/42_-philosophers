@@ -1,5 +1,5 @@
 NAME = philo
-CFLAGS = -Wextra -Wall -Werror -pthread -Iinclude 
+CFLAGS = -g -Wextra -Wall -Werror -pthread -Iinclude 
 
 SRCS =	src/main.c \
 		src/tools.c \
@@ -10,7 +10,7 @@ SRCS =	src/main.c \
 		src/action_fork.c \
 		src/action_philo.c \
 		src/set_philo.c \
-		src/listener.c
+		src/listener.c 
 
 OBJS = $(SRCS:.c=.o)
 

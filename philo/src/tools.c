@@ -6,7 +6,7 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:45:37 by likong            #+#    #+#             */
-/*   Updated: 2024/08/19 13:10:19 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/26 10:15:30 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void	delete_mutexes(t_data *d)
 {
 	delete_mutex(&d->mutexes->forks, d->arg.phi_amount);
 	delete_mutex(&d->mutexes->philos, d->arg.phi_amount);
+	delete_mutex(&d->mutexes->printer, 1);
 }

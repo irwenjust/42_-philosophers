@@ -6,31 +6,33 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 18:02:51 by likong            #+#    #+#             */
-/*   Updated: 2024/08/21 12:20:38 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/26 11:09:06 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static void	print_info(t_philo *philo)
+void	print_info(t_philo *philo, char *info)
 {
 	long	ms;
 	char	*str;
 
 	if (check_exit(philo))
 		return ;
-	pthread_mutex_lock(philo->self);
+	pthread_mutex_lock(philo->printer);
 	ms = passed_time(philo->arg.start);
-	if (philo->state == EAT)
-		str = "is eating";
+	if (info)
+		str = info;
 	else if (philo->state == SLEEP)
 		str = "is sleeping";
 	else if (philo->state == THINK)
 		str = "is thinking";
+	else if (philo->state == EAT)
+		str = "is eating";
 	else
-		str = "";
+		str = "\n";
 	printf("%ld %d %s\n", ms, philo->seat + 1, str);
-	pthread_mutex_unlock(philo->self);
+	pthread_mutex_unlock(philo->printer);
 }
 
 int	set_exiting(t_philo *philo)
@@ -62,6 +64,8 @@ int	set_ready_eat(t_philo *philo)
 
 void	set_state(t_philo *philo, t_state state)
 {
+	pthread_mutex_lock(philo->self);
 	philo->state = state;
-	print_info(philo);
+	pthread_mutex_unlock(philo->self);
+	print_info(philo, NULL);
 }

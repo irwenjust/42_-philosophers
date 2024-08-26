@@ -6,7 +6,7 @@
 /*   By: likong <likong@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:37:24 by likong            #+#    #+#             */
-/*   Updated: 2024/08/21 15:34:38 by likong           ###   ########.fr       */
+/*   Updated: 2024/08/26 11:29:16 by likong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_mutexes
 {
 	t_mutex	*forks;
 	t_mutex	*philos;
+	t_mutex	*printer;
 }	t_mutexes;
 
 typedef struct s_arg
@@ -66,6 +67,7 @@ typedef struct s_philo
 	t_mutex	*self;
 	t_mutex	*l_fork;
 	t_mutex	*r_fork;
+	t_mutex	*printer;
 }	t_philo;
 
 typedef struct s_data
@@ -81,6 +83,7 @@ int		ft_atoi(char *str);
 //Tool functions
 int		putstr_fd(char *str, int fd);
 size_t	str_len(char *str);
+void	print_info(t_philo *philo, char *info);
 
 //Init part
 int		init_data(t_data **d);
