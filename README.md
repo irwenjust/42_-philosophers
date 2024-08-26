@@ -1,5 +1,5 @@
 # 42_-philosophers
-Eat + sleep + think ==  philosophers?
+Eat + sleep + think ==  philosophers?   
 Use thread and mutex lock to handle philosopher problem (mandatory part).   
 A good introduction to this problem and project: https://medium.com/@jalal92/the-dining-philosophers-7157cc05315   
 The project grade is 100/100.
